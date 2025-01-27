@@ -1,0 +1,13 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: #231F20 !important;
+}
+
+/* Make the root element take the full height of the screen */
+#root {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
