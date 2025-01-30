@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Container, Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -93,11 +93,11 @@ const App: React.FC = () => {
       /****** INPUTS ******/
       <div className="form-container">
         <h2 className="mb-3 title primary-color">Crypto Profit/Loss Calculator</h2>
-
+        <h6 className="mb-3 title primary-color">Leverage Mode</h6>
         <Container className="mb-3">
           <Row>
             <Col>
-            <div className="mb-3">
+            <div className="mb-3 input-section">
               <label>Investment</label>
                 <input
                   type="number"
@@ -108,7 +108,7 @@ const App: React.FC = () => {
             </div>
             </Col>
             <Col>
-            <div className="mb-3">
+            <div className="mb-3 input-section">
               <label>Leverage</label>
                 <input
                   type="number"
@@ -130,8 +130,13 @@ const App: React.FC = () => {
         <Container className="mb-3">
           <Row>
             <Col>
-              <div className="mb-3">
-                <label>Maker Fee (%) <br /> (Limit Orders)</label>
+              <div className="mb-3 input-section">
+              <label>Maker Fee (%)</label>
+                <OverlayTrigger
+                  placement="top" 
+                  overlay={<Tooltip id="tooltip-buy-price">Limit Orders</Tooltip>}>
+                    <FontAwesomeIcon icon={faCircleInfo} />
+                </OverlayTrigger>
                 <input
                   type="number"
                   value={makerFee}
@@ -143,8 +148,13 @@ const App: React.FC = () => {
               </div>  
             </Col>
             <Col>
-            <div className="mb-3">
-              <label>Taker Fee (%) <br /> (Market Orders)</label>
+            <div className="mb-3 input-section">
+            <label>Taker Fee (%)</label>
+              <OverlayTrigger
+                  placement="top" 
+                  overlay={<Tooltip id="tooltip-buy-price">Market Orders</Tooltip>}>
+                  <FontAwesomeIcon icon={faCircleInfo} />
+              </OverlayTrigger>
               <input
                 type="number"
                 value={takerFee}
@@ -156,8 +166,13 @@ const App: React.FC = () => {
             </div>
             </Col>
             <Col>
-            <div className="mb-3">
-              <label>Funding Fee (%) <br /> (1x8hr Period)</label>
+            <div className="mb-3 input-section">
+            <label>Funding Fee (%)</label>
+              <OverlayTrigger
+                  placement="top" 
+                  overlay={<Tooltip id="tooltip-buy-price">Fee occurs every 8 hours.</Tooltip>}>
+                  <FontAwesomeIcon icon={faCircleInfo} />
+              </OverlayTrigger>
               <input
                 type="number"
                 value={fundingFee}
@@ -173,7 +188,7 @@ const App: React.FC = () => {
         <Container className="mb-3">
           <Row>
             <Col>
-            <div className="mb-3">
+            <div className="mb-3 input-section">
               <label>Buy Price</label>
               <input
                 type="number"
@@ -184,7 +199,7 @@ const App: React.FC = () => {
             </div>
             </Col>
             <Col>
-            <div className="mb-3">
+            <div className="mb-3 input-section">
               <label>Sell Price</label>
               <input
                 type="number"
@@ -210,7 +225,7 @@ const App: React.FC = () => {
           <h5>
             <span className="secondary-color">Unrealized PnL: </span>
             <span className={unrealizedPnl < 0 ? "text-danger" : unrealizedPnl > 0 ? "text-success" : ""}>
-              ${!isNaN(unrealizedPnl) && unrealizedPnl !== null ? unrealizedPnl : 0}
+              ${!isNaN(unrealizedPnl) && unrealizedPnl !== null ? unrealizedPnl : 0}&nbsp;
               ({!isNaN(unrealizedPriceChange) && unrealizedPriceChange !== null ? unrealizedPriceChange : 0}%)
             </span>
           </h5>
@@ -221,7 +236,7 @@ const App: React.FC = () => {
           <h5>
             <span className="secondary-color">Realized PnL: </span> 
             <span className={realizedPnl < 0 ? "text-danger" : realizedPnl > 0 ? "text-success" : ""}>
-              ${!isNaN(realizedPnl) && realizedPnl !== null ? realizedPnl : 0}
+              ${!isNaN(realizedPnl) && realizedPnl !== null ? realizedPnl : 0}&nbsp;
               ({!isNaN(realizedPriceChange) && realizedPriceChange !== null ? realizedPriceChange : 0}%)
             </span>
           </h5>
