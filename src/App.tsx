@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Container, Row, Col, Tooltip, OverlayTrigger, ButtonGroup, ToggleButton } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import './App.css';
@@ -15,6 +15,8 @@ const App: React.FC = () => {
   const [fundingFee, setFundingFee] = useState<number>(0);
   const [totalFees, setTotalFees] = useState<number>(0);
 
+  const [position, setPosition] = useState<string>('long');
+
   const [buyPrice, setBuyPrice] = useState<number>(0);
   const [sellPrice, setSellPrice] = useState<number>(0);
 
@@ -24,8 +26,8 @@ const App: React.FC = () => {
   const [realizedPriceChange, setRealizedPriceChange] = useState<number>(0);
   const [realizedPnl, setRealizedPnl] = useState<number>(0);
   const [result, setResult] = useState<number>(0);
-  useEffect(() => {
 
+  useEffect(() => {
     //calculate fee
     const makerFeeDecimal = makerFee !== 0 ? makerFee : 0;
     const takerFeeDecimal = takerFee !== 0 ? takerFee : 0;
@@ -42,8 +44,14 @@ const App: React.FC = () => {
     const calculatedTotalFees = totalOpenFee + totalFundingFee + totalClosingFee;
     setTotalFees(calculatedTotalFees);
 
+   //calculate the percentage difference of buy and sell price
+    let calculatedPriceChange: number = 0;
+    if (position === 'long') {
+      calculatedPriceChange = ((sellPrice - buyPrice)/buyPrice) * 100;
+    } else if (position === 'short') {
+      calculatedPriceChange = ((buyPrice - sellPrice)/sellPrice) * -100;
+    }
     //calculate the percentage difference of buy and sell price
-    const calculatedPriceChange = ((sellPrice - buyPrice)/buyPrice)*100
     setPriceChange(roundToTwoDecimals(calculatedPriceChange));
 
     //calculate unrealized pnl percentage
@@ -66,7 +74,7 @@ const App: React.FC = () => {
     const calculatedResult = investment + calculatedRealized;
     setResult(roundToTwoDecimals(calculatedResult));
 
-  }, [investment, leverage, tradingSize, makerFee, takerFee, fundingFee, buyPrice, sellPrice]);
+  }, [investment, leverage, tradingSize, makerFee, takerFee, fundingFee, position, buyPrice, sellPrice]);
 
   const handleMakerFeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -184,6 +192,27 @@ const App: React.FC = () => {
             </Col>
           </Row>
         </Container>
+    
+        <ButtonGroup className="mb-3">
+          <ToggleButton
+            id="toggle-long"
+            type="radio"
+            variant={position === "long" ? "success" : "outline-success"}
+            checked={position === "long"}
+            value="long"
+            onChange={() => setPosition('long')}>
+            Long
+          </ToggleButton>
+          <ToggleButton
+            id="toggle-short"
+            type="radio"
+            variant={position === "short" ? "danger" : "outline-danger"}
+            checked={position === "short"}
+            value="short"
+            onChange={() => setPosition('short')}>
+            Short
+          </ToggleButton>
+        </ButtonGroup>
 
         <Container className="mb-3">
           <Row>
