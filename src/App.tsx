@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => {
   const [investment, setInvestment] = useState<number>(0);
-  const [leverage, setLeverage] = useState<number>(0);
+  const [leverage, setLeverage] = useState<number>(1);
   const [tradingSize, setTradingSize] = useState<number>(0);
 
   const [makerFee, setMakerFee] = useState<number>(0);
@@ -47,28 +47,28 @@ const App: React.FC = () => {
    //calculate the percentage difference of buy and sell price
     let calculatedPriceChange: number = 0;
     if (position === 'long') {
-      calculatedPriceChange = ((sellPrice - buyPrice)/buyPrice) * 100;
+      calculatedPriceChange = ((sellPrice - buyPrice)/buyPrice);
     } else if (position === 'short') {
-      calculatedPriceChange = ((buyPrice - sellPrice)/sellPrice) * -100;
+      calculatedPriceChange = ((buyPrice - sellPrice)/sellPrice);
     }
     //calculate the percentage difference of buy and sell price
-    setPriceChange(roundToTwoDecimals(calculatedPriceChange));
+    setPriceChange(roundToTwoDecimals(calculatedPriceChange * 100));
 
-    //calculate unrealized pnl percentage
-    const calculatedUnrealizedPriceChange = ((calculatedPriceChange * leverage))/100 * investment;
-    setUnrealizedPriceChange(roundToTwoDecimals(calculatedUnrealizedPriceChange));
-    
     //calculate unrealized pnl
-    const calculatedUnrealized = (investment * calculatedUnrealizedPriceChange)/100;
+    const calculatedUnrealized = tradingSize * calculatedPriceChange;
     setUnrealizedPnl(roundToTwoDecimals(calculatedUnrealized));
 
-    //calculate realized pnl percentage
-    const calculatedRealizedPriceChange = ((calculatedPriceChange * leverage))/100 * investment - calculatedTotalFees;
-    setRealizedPriceChange(roundToTwoDecimals(calculatedRealizedPriceChange));
+    //calculate unrealized pnl percentage
+    const calculatedUnrealizedPriceChange = ((calculatedUnrealized)/investment) * 100;
+    setUnrealizedPriceChange(roundToTwoDecimals(calculatedUnrealizedPriceChange));
 
     //calculate realized pnl
-    const calculatedRealized = (investment * calculatedUnrealizedPriceChange)/100 - calculatedTotalFees;
+    const calculatedRealized = calculatedUnrealized - calculatedTotalFees;
     setRealizedPnl(roundToTwoDecimals(calculatedRealized));
+
+    //calculate realized pnl percentage
+    const calculatedRealizedPriceChange = ((calculatedRealized/investment)) * 100;
+    setRealizedPriceChange(roundToTwoDecimals(calculatedRealizedPriceChange));
 
     //calculate result
     const calculatedResult = investment + calculatedRealized;
@@ -248,14 +248,14 @@ const App: React.FC = () => {
           <h5>
             <span className="secondary-color">Price Change: </span> 
             <span className={priceChange < 0 ? "text-danger" : priceChange > 0 ? "text-success" : ""}>
-              {!isNaN(priceChange) && priceChange !== null ? priceChange : 0}%
+              {(!isNaN(priceChange) && priceChange !== null) ? (priceChange > 0 ? `+${priceChange}` : priceChange) : 0}%
             </span>
           </h5>
           <h5>
             <span className="secondary-color">Unrealized PnL: </span>
             <span className={unrealizedPnl < 0 ? "text-danger" : unrealizedPnl > 0 ? "text-success" : ""}>
-              ${!isNaN(unrealizedPnl) && unrealizedPnl !== null ? unrealizedPnl : 0}&nbsp;
-              ({!isNaN(unrealizedPriceChange) && unrealizedPriceChange !== null ? unrealizedPriceChange : 0}%)
+              ${!isNaN(unrealizedPnl) && unrealizedPnl !== null ? (unrealizedPnl > 0 ? `+${unrealizedPnl}` : unrealizedPnl) : 0}&nbsp;
+              ({!isNaN(unrealizedPriceChange) && unrealizedPriceChange !== null ? (unrealizedPriceChange > 0 ? `+${unrealizedPriceChange}` : unrealizedPriceChange): 0}%)
             </span>
           </h5>
           <h5>
@@ -265,8 +265,8 @@ const App: React.FC = () => {
           <h5>
             <span className="secondary-color">Realized PnL: </span> 
             <span className={realizedPnl < 0 ? "text-danger" : realizedPnl > 0 ? "text-success" : ""}>
-              ${!isNaN(realizedPnl) && realizedPnl !== null ? realizedPnl : 0}&nbsp;
-              ({!isNaN(realizedPriceChange) && realizedPriceChange !== null ? realizedPriceChange : 0}%)
+              ${!isNaN(realizedPnl) && realizedPnl !== null ? (realizedPnl > 0 ? `+${realizedPnl}` : realizedPnl) : 0}&nbsp;
+              ({!isNaN(realizedPriceChange) && realizedPriceChange !== null ? (realizedPriceChange > 0 ? `+${realizedPriceChange}` : realizedPriceChange): 0}%)
             </span>
           </h5>
           <h5>
