@@ -1,6 +1,14 @@
-A Crypto Profit Loss Calculator
-- Crypto Leverage Trading 
-- Stock Shares Profits
+## Crypto Profit Loss Calculator
+- [View Website](https://nsay.github.io/crypto-stocks-calculator/)
+- Calculator Features:
+  - Crypto Leverage  
+  - Stock Shares
 
 
-[Website](https://nsay.github.io/crypto-stocks-calculator/)
+
+#### Run the following commands
+1. `npm install`
+2. to make edits on dev local: `npm run dev`
+3. to deploy to deployment branch (gh-pages): `npm run deploy`
+
+
