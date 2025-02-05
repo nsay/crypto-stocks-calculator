@@ -52,101 +52,86 @@ const Stocks: React.FC = () => {
   
   return (
     <Container>
-        <Row className="mb-3">
-          <Col>
-            <div className="mb-3 input-section">
-              <label>Shares</label>
-                <input
-                  type="number"
-                  value={shares}
-                  onChange={(e) => {
-                    const num = e.target.value === "" ? 0 : Number(e.target.value);
-                    setShares(num);
-                  }}
-                  className="form-control"
-                />
-            </div>
-          </Col>
-        </Row>
-        <Row className="mb-3">
-          <Col>
-            <div className="mb-3 input-section">
+      <Row>
+        {/* Left Column - Inputs */}
+        <Col md={6}>
+          <div className="mb-3">
+            <label>Shares</label>
+            <input
+              type="number"
+              value={shares}
+              onChange={(e) => setShares(e.target.value === "" ? 0 : Number(e.target.value))}
+              className="form-control"/>
+          </div>
+          <div className="mb-3">
             <label>Buy Commission</label>
-                <input
-                  type="number"
-                  value={buyCommission}
-                  onChange={(e) => setBuyCommission(e.target.value === "" ? 0 : Number(e.target.value))}
-                  className="form-control"
-                />
+            <input
+              type="number"
+              value={buyCommission}
+              onChange={(e) => setBuyCommission(e.target.value === "" ? 0 : Number(e.target.value))}
+              className="form-control"/>
+          </div>
+          <div className="mb-3">
+            <label>Sell Commission</label>
+            <input
+              type="number"
+              value={sellCommission}
+              onChange={(e) => setSellCommission(e.target.value === "" ? 0 : Number(e.target.value))}
+              className="form-control"/>
+          </div>
+          <div>
+            <div className="mb-3">
+              <label>Buy Price</label>
+              <input
+                type="number"
+                value={buyPrice}
+                onChange={(e) => setBuyPrice(e.target.value === "" ? 0 : Number(e.target.value))}
+                className="form-control" />
             </div>
-          </Col>
-          <Col>
-            <div className="mb-3 input-section">
-              <label>Sell Commission</label>
-                <input
-                  type="number"
-                  value={sellCommission}
-                  onChange={(e) => setSellCommission(e.target.value === "" ? 0 : Number(e.target.value))}
-                  className="form-control"
-                />
-            </div>
-          </Col>
-        </Row>
-        <Row className="mb-3">
-          <Col>
-            <div className="mb-3 input-section">
-            <label>Buy Price</label>
-                <input
-                  type="number"
-                  value={buyPrice}
-                  onChange={(e) => setBuyPrice(e.target.value === "" ? 0 : Number(e.target.value))}
-                  className="form-control"
-                />
-            </div>
-          </Col>
-          <Col>
-            <div className="mb-3 input-section">
+            <div className="mb-3">
               <label>Sell Price</label>
-                <input
-                  type="number"
-                  value={sellPrice}
-                  onChange={(e) => setSellPrice(e.target.value === "" ? 0 : Number(e.target.value))}
-                  className="form-control"
-                />
+              <input
+                type="number"
+                value={sellPrice}
+                onChange={(e) => setSellPrice(e.target.value === "" ? 0 : Number(e.target.value))}
+                className="form-control" />
             </div>
-          </Col>
-        </Row>
-        <div className="result primary-color">
-          <h4 className="mb-3 title">
-            Investment Result
-          </h4>
-          <h5>
-            <span className="secondary-color">Investment: </span> 
-            <span >${totalBuyPrice}</span>
-          </h5>
-          <h5>
-            <span className="secondary-color">Price Change: </span> 
-            <span className={priceChange < 0 ? "text-danger" : priceChange > 0 ? "text-success" : ""}>
-              {(!isNaN(priceChange) && priceChange !== null) ? (priceChange > 0 ? `+${priceChange}` : priceChange) : 0}%
-            </span>
-          </h5>
-          <h5>
-            <span className="secondary-color">Fees: </span> 
-            <span className="text-danger">${totalCommission}</span>
-          </h5>
-          <h5>
-            <span className="secondary-color">PnL: </span> 
-            <span className={pnl < 0 ? "text-danger" : pnl > 0 ? "text-success" : ""}>
-              ${!isNaN(pnl) && pnl !== null ? pnl : 0}
-            </span>
-          </h5>
-        <h5>
-          <span className="secondary-color">Result: </span>
-          <span className={result < 0 ? "text-danger" : result > 0 ? "text-success" : ""}>
-            ${!isNaN(result) && result !== null ? result : 0}
-          </span>
-        </h5>
-        </div>
+          </div>
+        </Col>
+
+        {/* Right Column - Investment Results */}
+        <Col md={6}>
+          <div className="result primary-color">
+            <h4 className="mb-3 title">Investment Result</h4>
+            <h5>
+              <span className="secondary-color">Investment: </span>
+              <span>${totalBuyPrice}</span>
+            </h5>
+            <h5>
+              <span className="secondary-color">Price Change: </span>
+              <span className={priceChange < 0 ? "text-danger" : priceChange > 0 ? "text-success" : ""}>
+                {(!isNaN(priceChange) && priceChange !== null) ? (priceChange > 0 ? `+${priceChange}` : priceChange) : 0}%
+              </span>
+            </h5>
+            <h5>
+              <span className="secondary-color">Fees: </span>
+              <span className="text-danger">${totalCommission}</span>
+            </h5>
+            <h5>
+              <span className="secondary-color">PnL: </span>
+              <span className={pnl < 0 ? "text-danger" : pnl > 0 ? "text-success" : ""}>
+                ${!isNaN(pnl) && pnl !== null ? pnl : 0}
+              </span>
+            </h5>
+            <h5>
+              <span className="secondary-color">Result: </span>
+              <span className={result < 0 ? "text-danger" : result > 0 ? "text-success" : ""}>
+                ${!isNaN(result) && result !== null ? result : 0}
+              </span>
+            </h5>
+          </div>
+        </Col>
+      </Row>
     </Container>
   );
 };
