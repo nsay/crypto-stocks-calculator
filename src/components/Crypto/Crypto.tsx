@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Tooltip, OverlayTrigger, ButtonGroup, ToggleButton } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
-import './App.css';
+import './Crypto.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const App: React.FC = () => {
+const Crypto: React.FC = () => {
   const [investment, setInvestment] = useState<number>(0);
   const [leverage, setLeverage] = useState<number>(1);
   const [tradingSize, setTradingSize] = useState<number>(0);
@@ -51,7 +51,6 @@ const App: React.FC = () => {
     } else if (position === 'short') {
       calculatedPriceChange = ((buyPrice - sellPrice)/sellPrice);
     }
-    //calculate the percentage difference of buy and sell price
     setPriceChange(roundToTwoDecimals(calculatedPriceChange * 100));
 
     //calculate unrealized pnl
@@ -97,12 +96,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <Container className="center-container">
-      /****** INPUTS ******/
-      <div className="form-container">
-        <h2 className="mb-3 title primary-color">Crypto Profit/Loss Calculator</h2>
-        <h6 className="mb-3 title primary-color">Leverage Mode</h6>
-        <Container className="mb-3">
+    <Container>
+      <Container className="mb-3">
           <Row>
             <Col>
             <div className="mb-3 input-section">
@@ -116,21 +111,21 @@ const App: React.FC = () => {
             </div>
             </Col>
             <Col>
-            <div className="mb-3 input-section">
-              <label>Leverage</label>
-                <input
-                  type="number"
-                  value={leverage}
-                  onChange={(e) => setLeverage(e.target.value === "" ? 0 : Number(e.target.value))}
-                  className="form-control"
-                />
-            </div>
+              <div className="mb-3 input-section">
+                <label>Leverage</label>
+                  <input
+                    type="number"
+                    value={leverage}
+                    onChange={(e) => setLeverage(e.target.value === "" ? 0 : Number(e.target.value))}
+                    className="form-control"
+                  />
+              </div>
             </Col>
             <Col>
-            <div className="mb-3">
-              <label>Trading Size</label>
-              <h4 className="primary-color">{tradingSize}</h4>
-            </div>
+              <div className="mb-3">
+                <label>Trading Size</label>
+                <h4 className="primary-color">{tradingSize}</h4>
+              </div>
             </Col>
           </Row>
         </Container>
@@ -270,15 +265,14 @@ const App: React.FC = () => {
             </span>
           </h5>
           <h5>
-            <span className="secondary-color">Total: </span> 
+            <span className="secondary-color">Result: </span> 
             <span className={result < 0 ? "text-danger" : result > 0 ? "text-success" : ""}>
               ${!isNaN(result) && result !== null ? result : 0}
             </span>
           </h5>
         </div>
-      </div>
     </Container>
   );
 };
 
-export default App;
+export default Crypto;
