@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from 'react-bootstrap';
-import './Stocks.css';
+import './StockShares.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Stocks: React.FC = () => {
+const StockShares: React.FC = () => {
   const [shares, setShares] = useState<number>(0);
 
   const [buyCommission, setBuyCommission] = useState<number>(0);
@@ -136,4 +136,4 @@ const Stocks: React.FC = () => {
   );
 };
 
-export default Stocks;
+export default StockShares;

@@ -2,8 +2,8 @@ import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Tabs, Tab } from 'react-bootstrap';
 import Crypto from './components/Crypto/Crypto';
-import Stocks from './components/Stocks/Stocks';
-import './index.css';
+import StockShares from './components/Stocks/StockShares/StockShares';
+import './main.css';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('stocks');
@@ -19,7 +19,7 @@ const App = () => {
           <Crypto />
         </Tab>
         <Tab eventKey="stocks" title="Stocks Shares">
-          <Stocks />
+          <StockShares />
         </Tab>
       </Tabs>
     </div>
